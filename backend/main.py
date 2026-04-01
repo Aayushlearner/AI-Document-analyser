@@ -32,25 +32,7 @@ app = FastAPI(
 )
 
 # ---------------------------------------------------------------------------
-# CORS
-# ---------------------------------------------------------------------------
-
-allowed_origins_raw = os.getenv(
-    "ALLOWED_ORIGINS",
-    "http://localhost:5173,http://localhost:3000",
-)
-allowed_origins = [o.strip() for o in allowed_origins_raw.split(",")]
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=allowed_origins,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
-# ---------------------------------------------------------------------------
-# Request / response logging middleware
+# Request / response logging middleware (added first = inner = runs second)
 # ---------------------------------------------------------------------------
 
 @app.middleware("http")
@@ -66,6 +48,25 @@ async def log_requests(request: Request, call_next):
         duration_ms,
     )
     return response
+
+
+# ---------------------------------------------------------------------------
+# CORS (added last = outermost = runs first, before anything else)
+# ---------------------------------------------------------------------------
+
+allowed_origins_raw = os.getenv(
+    "ALLOWED_ORIGINS",
+    "http://localhost:5173,http://localhost:3000",
+)
+allowed_origins = [o.strip() for o in allowed_origins_raw.split(",")]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=allowed_origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 # ---------------------------------------------------------------------------
