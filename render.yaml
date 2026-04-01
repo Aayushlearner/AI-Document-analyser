@@ -1,0 +1,32 @@
+services:
+  # ── Backend (FastAPI) ──────────────────────────────────────────────────────
+  - type: web
+    name: ai-doc-analyser-api
+    runtime: python
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: OPENAI_API_KEY
+        sync: false                      # set manually in Render dashboard
+      - key: UPLOAD_DIR
+        value: /tmp/uploads
+      - key: CHROMA_PERSIST_DIR
+        value: /tmp/chroma_db
+      - key: LOG_LEVEL
+        value: INFO
+      - key: ALLOWED_ORIGINS
+        sync: false                      # set to your frontend URL after deploy
+
+  # ── Frontend (React/Vite static site) ─────────────────────────────────────
+  - type: web
+    name: ai-doc-analyser-ui
+    runtime: static
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    envVars:
+      - key: VITE_API_URL
+        sync: false                      # set to your backend URL after deploy
