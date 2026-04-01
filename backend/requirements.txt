@@ -11,6 +11,7 @@ openpyxl==3.1.5
 python-docx==1.1.2
 
 # Vector store — pin hnswlib first to avoid C++ compilation on Render
+numpy==1.26.4
 hnswlib==0.8.0
 chromadb==0.4.24
 
