@@ -1,0 +1,21 @@
+fastapi==0.115.0
+uvicorn[standard]==0.30.6
+python-multipart==0.0.9
+pydantic==2.8.2
+pydantic-settings==2.4.0
+
+# Document processing
+pymupdf>=1.25.0
+pandas==2.2.2
+openpyxl==3.1.5
+python-docx==1.1.2
+
+# Vector store
+chromadb==0.5.15
+
+# OpenAI (embeddings + answer generation)
+openai>=1.35.0
+
+# Utilities
+python-dotenv==1.0.1
+tenacity==9.0.0
